@@ -79,7 +79,7 @@ export function CharacterSelection({ onSelect, onBack }: CharacterSelectionProps
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 mb-2 drop-shadow-2xl">
-              Choose Your Character
+              Choose Your Team
             </h1>
             <p className="text-white/80 text-lg font-medium">Select your warrior and begin your journey</p>
           </div>

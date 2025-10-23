@@ -61,7 +61,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
           </h1>
           <div className="relative">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-wider">
-              POKEMON MMORPG
+              MMORPG gamified learning experience.
             </h2>
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
           </div>
