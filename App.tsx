@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { GameWorld } from './components/GameWorld';
-import { LoginScreen } from './components/LoginScreen';
 import StartScreen from './components/StartScreen';
 import CharacterSelection from './components/CharacterSelection';
 
 export default function App() {
   const [player, setPlayer] = useState<any>(null);
-  const [stage, setStage] = useState<'start' | 'select' | 'login' | 'game'>('start');
-  const [selectedCharacter, setSelectedCharacter] = useState<any>(null);
+  const [stage, setStage] = useState<'start' | 'select' | 'game'>('start');
 
   const handleLogin = (playerData: any) => {
     setPlayer(playerData);
@@ -25,22 +23,8 @@ export default function App() {
 
       {stage === 'select' && (
         <CharacterSelection
-          onSelect={(player) => {
-            setSelectedCharacter(player);
-            setStage('login');
-          }}
+          onSelect={handleLogin}
           onBack={() => setStage('start')}
-        />
-      )}
-
-      {stage === 'login' && (
-        <LoginScreen
-          prefill={selectedCharacter ?? undefined}
-          onLogin={(p) => {
-            // merge character choices if present
-            const merged = { ...(selectedCharacter || {}), ...p };
-            handleLogin(merged);
-          }}
         />
       )}
 
