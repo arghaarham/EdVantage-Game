@@ -55,62 +55,194 @@ export function CharacterSelection({ onSelect, onBack }: CharacterSelectionProps
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-b from-blue-900 to-purple-900">
-      <div className="bg-white/6 backdrop-blur-lg rounded-xl p-8 w-full max-w-2xl border border-white/20">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-white font-semibold">Choose Your Character</h2>
-          <div className="flex gap-2">
-            <button onClick={() => setMode('signin')} className={`px-3 py-1 rounded ${mode === 'signin' ? 'bg-white/20 text-white' : 'text-white/60'}`}>
-              Sign in
-            </button>
-            <button onClick={() => setMode('create')} className={`px-3 py-1 rounded ${mode === 'create' ? 'bg-white/20 text-white' : 'text-white/60'}`}>
-              Create
-            </button>
+    <div className="w-full h-full relative overflow-hidden bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-4">
+        <div className="w-full max-w-4xl">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 mb-2 drop-shadow-2xl">
+              Choose Your Character
+            </h1>
+            <p className="text-white/80 text-lg font-medium">Select your warrior and begin your journey</p>
           </div>
-        </div>
 
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {DEFAULT_CHARACTERS.map(c => (
-            <div key={c.id} className={`p-2 rounded-lg text-center cursor-pointer border-4 ${selected === c.id ? 'border-white' : 'border-white/20'}`} onClick={() => setSelected(c.id)}>
-              <div className="relative w-28 h-28 mx-auto mb-2">
-                  {/* repeating idle pattern behind */}
-                  {/* idle tiled pattern behind the tower */}
-                  <IdlePattern src={c.warrior as string} frameWidth={48} frameHeight={48} frameIndex={0} opacity={0.18} size={20} className="" />
+          {/* Character selection card */}
+          <div className="relative bg-gradient-to-b from-slate-800/90 to-slate-900/90 backdrop-blur-sm border-4 border-yellow-400 rounded-lg p-8 shadow-2xl">
+            {/* Decorative corners */}
+            <div className="absolute -top-2 -left-2 w-6 h-6 bg-yellow-400 transform rotate-45"></div>
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 transform rotate-45"></div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-yellow-400 transform rotate-45"></div>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-yellow-400 transform rotate-45"></div>
 
-                  {/* tower image sits above the pattern */}
-                  <img src={c.tower as string} alt={`${c.label} tower`} className="absolute inset-0 w-full h-full object-contain z-10" />
-
-                  {/* animated warrior stays centered above the tower (doesn't shift) */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-20" style={{ width: 64, height: 64 }}>
-                    <SpriteAnimator src={c.warrior as string} frameWidth={48} frameHeight={48} frameCount={36} fps={8} scale={1.2} />
-                  </div>
+            {/* Mode selection */}
+            <div className="flex justify-center mb-8">
+              <div className="flex gap-2 bg-slate-700/50 rounded-lg p-1">
+                <button 
+                  onClick={() => setMode('signin')} 
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    mode === 'signin' 
+                      ? 'bg-yellow-400 text-slate-900 shadow-lg' 
+                      : 'text-yellow-200 hover:text-white'
+                  }`}
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => setMode('create')} 
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    mode === 'create' 
+                      ? 'bg-yellow-400 text-slate-900 shadow-lg' 
+                      : 'text-yellow-200 hover:text-white'
+                  }`}
+                >
+                  Create Account
+                </button>
               </div>
-              <div className="text-white/80">{c.label}</div>
             </div>
-          ))}
-        </div>
 
-        <div className="space-y-4 mb-4">
-          <div>
-            <label className="text-white block mb-1">Name</label>
-            <input value={username} onChange={e => setUsername(e.target.value)} className="w-full p-2 rounded bg-white/10 text-white border border-white/20" />
+            {/* Character selection grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+              {DEFAULT_CHARACTERS.map(c => (
+                <div 
+                  key={c.id} 
+                  className={`relative group cursor-pointer transition-all duration-300 ${
+                    selected === c.id ? 'scale-105' : 'hover:scale-102'
+                  }`} 
+                  onClick={() => setSelected(c.id)}
+                >
+                  {/* Character card */}
+                  <div className={`relative bg-gradient-to-b from-slate-700/50 to-slate-800/50 rounded-lg p-4 border-2 transition-all duration-300 ${
+                    selected === c.id 
+                      ? 'border-yellow-400 shadow-lg shadow-yellow-400/50' 
+                      : 'border-yellow-400/30 hover:border-yellow-400/60'
+                  }`}>
+                    {/* Character display area */}
+                    <div className="relative w-32 h-32 mx-auto mb-4">
+                      {/* Idle pattern background */}
+                      <IdlePattern src={c.warrior as string} frameWidth={48} frameHeight={48} frameIndex={0} opacity={0.15} size={20} className="" />
+                      
+                      {/* Tower image */}
+                      <img src={c.tower as string} alt={`${c.label} tower`} className="absolute inset-0 w-full h-full object-contain z-10" />
+                      
+                      {/* Animated warrior */}
+                      <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-20" style={{ width: 64, height: 64 }}>
+                        <SpriteAnimator src={c.warrior as string} frameWidth={48} frameHeight={48} frameCount={36} fps={8} scale={1.2} />
+                      </div>
+                    </div>
+                    
+                    {/* Character name */}
+                    <div className="text-center">
+                      <h3 className="text-yellow-200 font-bold text-lg tracking-wider">{c.label}</h3>
+                      <div className="w-8 h-8 mx-auto mt-2 rounded-full border-2 border-yellow-400/50" style={{ backgroundColor: c.color }}></div>
+                    </div>
+                    
+                    {/* Selection indicator */}
+                    {selected === c.id && (
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <div className="w-3 h-3 bg-slate-900 rounded-full"></div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Form inputs */}
+            <div className="space-y-6 mb-8">
+              <div>
+                <label className="block text-yellow-200 font-bold mb-2 text-sm tracking-wider">
+                  USERNAME
+                </label>
+                <input 
+                  value={username} 
+                  onChange={e => setUsername(e.target.value)} 
+                  placeholder="Enter your username"
+                  className="w-full bg-slate-700/50 border-2 border-yellow-400/50 text-white placeholder:text-white/50 rounded-lg px-4 py-3 font-medium focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-yellow-200 font-bold mb-2 text-sm tracking-wider">
+                  PASSWORD
+                </label>
+                <input 
+                  type="password" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  placeholder="Enter your password"
+                  className="w-full bg-slate-700/50 border-2 border-yellow-400/50 text-white placeholder:text-white/50 rounded-lg px-4 py-3 font-medium focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex gap-4 justify-center">
+              <button 
+                onClick={handleContinue} 
+                className="relative group"
+              >
+                <div className="w-40 h-12 bg-cover bg-center transition-all duration-200 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `url(${new URL('../assets/UI/Buttons/Button_Blue_3Slides.png', import.meta.url).href})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'brightness(1.1) drop-shadow(0 0 10px rgba(59, 130, 246, 0.5))',
+                  }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-white font-bold text-sm tracking-wider drop-shadow-lg">
+                      CONTINUE
+                    </span>
+                  </div>
+                </div>
+              </button>
+              
+              {onBack && (
+                <button 
+                  onClick={onBack} 
+                  className="px-6 py-3 rounded-lg border-2 border-yellow-400/50 text-yellow-200 font-medium hover:border-yellow-400 hover:text-white transition-all duration-200"
+                >
+                  Back
+                </button>
+              )}
+            </div>
+
+            {/* Decorative elements */}
+            <div className="flex justify-center mt-6 space-x-2">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"
+                  style={{ animationDelay: `${i * 0.2}s` }}
+                />
+              ))}
+            </div>
           </div>
 
-          <div>
-            <label className="text-white block mb-1">Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full p-2 rounded bg-white/10 text-white border border-white/20" />
+          {/* Bottom message */}
+          <div className="mt-6 text-center">
+            <p className="text-yellow-300/70 text-sm font-medium tracking-wider">
+              • CHOOSE YOUR WARRIOR • BEGIN YOUR QUEST •
+            </p>
           </div>
-        </div>
-
-        <div className="flex gap-3">
-          <button onClick={handleContinue} className="px-4 py-2 rounded bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold">
-            Continue
-          </button>
-          {onBack && (
-            <button onClick={onBack} className="px-4 py-2 rounded border border-white/20 text-white">
-              Back
-            </button>
-          )}
         </div>
       </div>
     </div>

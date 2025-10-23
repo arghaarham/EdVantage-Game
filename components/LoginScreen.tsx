@@ -23,8 +23,6 @@ export function LoginScreen({ onLogin, prefill }: LoginScreenProps) {
     { value: '#ef4444', name: 'Red' },
     { value: '#10b981', name: 'Green' },
     { value: '#f59e0b', name: 'Yellow' },
-    { value: '#8b5cf6', name: 'Purple' },
-    { value: '#f97316', name: 'Orange' },
   ];
 
   useEffect(() => {
@@ -187,7 +185,7 @@ export function LoginScreen({ onLogin, prefill }: LoginScreenProps) {
                 <label className="block text-yellow-200 font-bold mb-3 text-sm tracking-wider">
                   AVATAR COLOR
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   {colors.map((color) => (
                     <button
                       key={color.value}
